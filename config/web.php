@@ -12,6 +12,15 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'queue' => [
+            'class' => \yii\queue\amqp_interop\Queue::class,
+            'host' => 'rabbitmq',
+            'port' => 5672,
+            'user' => 'root',
+            'password' => 'root',
+            'queueName' => 'queue',
+            'driver' => yii\queue\amqp_interop\Queue::ENQUEUE_AMQP_LIB,
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'Aso*j(&hd6GHA8SK7GDWA678SD8AS7',
@@ -42,14 +51,21 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/visit/<id:\d+>' => 'visit/index',
+                '/<shortLink:[A-Za-z0-9]{5}>' => 'visit/process',
+                '/' => 'link/index',
+                '/create' => 'link/create',
+                '/update' => 'link/update',
+                '/delete' => 'link/delete',
+                '/view' => 'link/view',
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];
@@ -60,14 +76,14 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['*'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['*'],
     ];
 }
 
