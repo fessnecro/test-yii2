@@ -66,7 +66,7 @@ class LinkSearch extends Link
         $query->andFilterWhere(['like', 'short_link', $this->short_link])
             ->andFilterWhere(['like', 'link', $this->link]);
 
-        $query->joinWith('visits');
+        $query->with('visits');
 
         return $dataProvider;
     }
