@@ -32,8 +32,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'user_id',
-            'short_link',
-            'link',
+            [
+                'attribute' => 'short_link',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a(Url::base('') . '/' . $model->short_link, Url::base('') . '/' . $model->short_link);
+                }
+            ],
+            [
+                'attribute' => 'link',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->link, $model->link);
+                }
+            ],
             'created_at',
             [
                 'attribute' => 'visits',
